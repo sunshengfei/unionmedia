@@ -27,7 +27,7 @@ android {
 
     repositories {
         flatDir {
-            dirs project(':lib').file('libs'), 'libs'
+            dirs /*project(':lib').file('libs'),*/ 'libs'
         }
     }
 
@@ -37,7 +37,7 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
 //    implementation project(':lib')
     implementation files('../thirdparty/Baidu_MobAds_SDK-release.aar', '../thirdparty/oaid_sdk_1.0.22.aar')
-    implementation 'com.github.sunshengfei:unionmedia:1.0.1'
+    implementation 'com.github.sunshengfei:unionmedia:1.0.3'
 
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.2.1'

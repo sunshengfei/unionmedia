@@ -2,7 +2,7 @@
 ### 引入
 
 ```gradle
-implementation 'com.github.sunshengfei:unionmedia:1.0.1'
+implementation 'com.github.sunshengfei:unionmedia:1.0.3'
 ```
 
 如依赖未能同步，请导入jitpack仓库配置，
@@ -22,9 +22,9 @@ buildscript {
 ###1 引入外部aar包至app项目
 
     thirdparty文件夹中
-
-1. Baidu_MobAds_SDK-release.aar
-2. oaid_sdk_1.0.22.aar
+1. android-query-full.0.26.7.jar
+2. Baidu_MobAds_SDK-release.aar
+3. oaid_sdk_1.0.22.aar
 
 ###2 Add these code to files
  

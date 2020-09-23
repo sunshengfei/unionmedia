@@ -22,3 +22,6 @@
 
 -keep class com.github.sunshengfei.unionmedia.* { *; }
 -keep class com.github.sunshengfei.unionmedia.*.** { *; }
+
+-keep class com.bun.miitmdid.core.* {*;}
+-keep class com.bun.miitmdid.core.*.** {*;}

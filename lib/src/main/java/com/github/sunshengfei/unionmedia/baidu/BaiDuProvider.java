@@ -9,12 +9,12 @@ import com.baidu.mobads.nativecpu.CPUAdRequest;
 import com.baidu.mobads.nativecpu.CpuLpFontSize;
 import com.baidu.mobads.nativecpu.IBasicCPUData;
 import com.baidu.mobads.nativecpu.NativeCPUManager;
+import com.github.sunshengfei.unionmedia.Bridge;
+import com.github.sunshengfei.unionmedia.IUnionMediaProvider;
+import com.github.sunshengfei.unionmedia.tools.RegexHelper;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import com.github.sunshengfei.unionmedia.IUnionMediaProvider;
-import com.github.sunshengfei.unionmedia.tools.RegexHelper;
 
 import static android.provider.Settings.Secure.getString;
 
@@ -95,7 +95,9 @@ public class BaiDuProvider implements IUnionMediaProvider {
             builder.setDownloadAppConfirmPolicy(RequestParameters.DOWNLOAD_APP_CONFIRM_ONLY_MOBILE);
             // 少部分机型出现无法获取手机设备信息问题，媒体可以通过设置 CustomUserId 来代替。
 //        builder.setCustomUserId(getAndroidId(context));
-            builder.setCustomUserId("123456789abcdefg");
+            if (RegexHelper.isEmpty(Bridge.DeviceID))
+                builder.setCustomUserId("123456789abcdefg");
+            else builder.setCustomUserId(Bridge.DeviceID);
             //将配置好的请求参数传入 NativeCPUManager
             mCpuManager.setRequestParameter(builder.build());
             mCpuManager.setLpFontSize(CpuLpFontSize.REGULAR);
@@ -117,7 +119,12 @@ public class BaiDuProvider implements IUnionMediaProvider {
         if (context == null) {
             return "";
         }
-        String androidId = getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
-        return androidId == null ? "" : androidId;
+        try {
+            String androidId = getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+            return androidId == null ? "" : androidId;
+        } catch (Exception e) {
+            return "";
+        }
     }
+
 }

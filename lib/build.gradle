@@ -1,12 +1,22 @@
 apply plugin: 'com.android.library'
+
+group = 'com.github.sunshengfei'
+ext {
+// 从Github上clone下来的项目的本地地址
+    GITHUB_REPO_PATH = "../dist/"
+    PUBLISH_GROUP_ID = 'com.github.sunshengfei'
+    PUBLISH_ARTIFACT_ID = 'unionmedia'
+    PUBLISH_VERSION = '1.0.3'//版本号
+}
+
 android {
     compileSdkVersion 29
 
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
+        versionCode 3
+        versionName project.PUBLISH_VERSION
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -44,7 +54,7 @@ repositories {
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    provided files('../thirdparty/Baidu_MobAds_SDK-release.aar','../thirdparty/oaid_sdk_1.0.22.aar')
+    provided files('../thirdparty/android-query-full.0.26.7.jar','../thirdparty/Baidu_MobAds_SDK-release.aar','../thirdparty/oaid_sdk_1.0.22.aar')
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'com.google.android.material:material:1.2.1'
@@ -70,14 +80,7 @@ dependencies {
 }
 
 
-group = 'com.github.sunshengfei'
-ext {
-// 从Github上clone下来的项目的本地地址
-    GITHUB_REPO_PATH = "../dist/"
-    PUBLISH_GROUP_ID = 'com.github.sunshengfei'
-    PUBLISH_ARTIFACT_ID = 'unionmedia'
-    PUBLISH_VERSION = '1.0.1'//版本号
-}
+
 
 
 apply plugin: 'maven'
