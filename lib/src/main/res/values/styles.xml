@@ -1,0 +1,10 @@
+<resources>
+    <style name="ActivityTheme.Full" parent="android:Theme.Light">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
+    <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
+    </style>
+</resources>

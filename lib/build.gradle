@@ -1,0 +1,133 @@
+apply plugin: 'com.android.library'
+android {
+    compileSdkVersion 29
+
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+
+    repositories {
+        flatDir {
+            dirs 'libs'
+        }
+    }
+}
+
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    provided files('../thirdparty/Baidu_MobAds_SDK-release.aar','../thirdparty/oaid_sdk_1.0.22.aar')
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'com.google.android.material:material:1.2.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
+
+    implementation 'com.scwang.smart:refresh-layout-kernel:2.0.1'      //核心必须依赖
+    implementation 'com.scwang.smart:refresh-header-classics:2.0.1'    //经典刷新头
+//    implementation  'com.scwang.smart:refresh-header-radar:2.0.1'       //雷达刷新头
+//    implementation  'com.scwang.smart:refresh-header-falsify:2.0.1'     //虚拟刷新头
+//    implementation  'com.scwang.smart:refresh-header-material:2.0.1'    //谷歌刷新头
+//    implementation  'com.scwang.smart:refresh-header-two-level:2.0.1'   //二级刷新头
+//    implementation  'com.scwang.smart:refresh-footer-ball:2.0.1'        //球脉冲加载
+    implementation 'com.scwang.smart:refresh-footer-classics:2.0.1'
+
+//    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
+    implementation 'io.reactivex.rxjava3:rxjava:3.0.6'
+    implementation 'com.annimon:stream:1.2.1'
+
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+}
+
+
+group = 'com.github.sunshengfei'
+ext {
+// 从Github上clone下来的项目的本地地址
+    GITHUB_REPO_PATH = "../dist/"
+    PUBLISH_GROUP_ID = 'com.github.sunshengfei'
+    PUBLISH_ARTIFACT_ID = 'unionmedia'
+    PUBLISH_VERSION = '1.0.1'//版本号
+}
+
+
+apply plugin: 'maven'
+
+task javadocJar(type: Jar, dependsOn: 'sourcesJar') {
+    archiveClassifier.set('javadoc')
+    from android.sourceSets.main.java.srcDirs
+}
+
+task sourcesJar(type: Jar) {
+    archiveClassifier.set('sources')
+    from android.sourceSets.main.java.srcDirs
+}
+
+//artifacts.add('javadocJar','sourcesJar')
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}
+
+//tasks.withType(Jar){jarTask->
+//    if(jarTask.name.equals('packageReleaseJar')){
+//        jarTask.from android.sourceSets.main.java.srcDirs
+//    }
+//}
+//
+//apply plugin: 'com.novoda.bintray-release'
+apply plugin: 'com.github.panpf.bintray-publish'
+publish {
+    userOrg = 'sunshengfei'
+    repoName = 'mirai'
+    groupId = project.PUBLISH_GROUP_ID
+    artifactId = project.PUBLISH_ARTIFACT_ID
+    publishVersion = project.PUBLISH_VERSION//版本号
+    uploadName = project.PUBLISH_ARTIFACT_ID
+    desc = 'Easy way to using Baidu DataCPUContent'
+    website = 'https://github.com/sunshengfei/unionmedia.git'
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            //本地maven仓库地址,也可以使用远程maven仓库
+            def deployPath = file(project.GITHUB_REPO_PATH)
+            repository(url: "file://${deployPath.absolutePath}")
+            pom.project {
+                groupId project.PUBLISH_GROUP_ID
+                artifactId project.PUBLISH_ARTIFACT_ID
+                version project.PUBLISH_VERSION
+            }
+        }
+    }
+}
